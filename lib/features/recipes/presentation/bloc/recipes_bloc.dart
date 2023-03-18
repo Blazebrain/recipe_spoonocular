@@ -1,9 +1,10 @@
 // bloc/recipe_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_spoonacular_app/features/recipes/presentation/bloc/recipes_event.dart';
-import 'package:recipe_spoonacular_app/features/recipes/presentation/bloc/recipes_state.dart';
+import '../../data/models/recipes.dart';
 
 import '../../data/repositories/recipe_repository.dart';
+part 'recipes_event.dart';
+part 'recipes_state.dart';
 
 class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
   final RecipeRepository recipeRepository;

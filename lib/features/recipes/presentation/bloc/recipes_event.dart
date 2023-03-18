@@ -1,3 +1,5 @@
+part of 'recipes_bloc.dart';
+
 abstract class RecipeEvent {}
 
 class LoadRandomRecipes extends RecipeEvent {

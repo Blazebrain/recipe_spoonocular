@@ -1,4 +1,4 @@
-import '../../data/models/recipes.dart';
+part of 'recipes_bloc.dart';
 
 abstract class RecipeState {}
 
