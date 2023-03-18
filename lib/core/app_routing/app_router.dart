@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_spoonacular_app/features/recipes/presentation/ui/recipe_page.dart';
-import '../../features/recipes/presentation/ui/welcome_page.dart';
+import 'package:recipe_spoonacular_app/features/recipes/presentation/pages/recipe_page.dart';
+import '../../features/recipes/presentation/pages/welcome_page.dart';
 import 'route_names.dart';
 
 class AppRouter {

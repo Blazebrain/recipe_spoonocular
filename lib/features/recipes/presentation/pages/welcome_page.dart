@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_spoonacular_app/core/app_routing/app_navigator.dart';
-import 'package:recipe_spoonacular_app/features/recipes/presentation/ui/recipe_page.dart';
 
 import '../../../../core/constants/style.dart';
 import '../../../../core/widgets/custom_dot_widget.dart';
@@ -26,7 +25,7 @@ class WelcomeView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SimpleText(
-                'What shall the\nson of man',
+                'What shall the\nrest of us',
                 size: 32,
                 weight: FontWeight.w500,
                 color: textWhiteColor,

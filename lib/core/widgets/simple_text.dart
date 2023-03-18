@@ -10,6 +10,7 @@ class SimpleText extends StatelessWidget {
   final double? size;
   final int? maxLines;
   final TextAlign? align;
+  final TextStyle? style;
 
   const SimpleText(
     this.text, {
@@ -19,20 +20,22 @@ class SimpleText extends StatelessWidget {
     this.size,
     this.maxLines,
     this.align,
+    this.style,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Text(
-      '$text',
+      text,
       maxLines: maxLines,
       softWrap: true,
       textAlign: align ?? TextAlign.start,
       overflow: maxLines != null ? TextOverflow.ellipsis : null,
-      style: GoogleFonts.montserrat(
-        fontSize: size ?? 16,
-        fontWeight: weight ?? FontWeight.w400,
-        color: color ?? textBlackColor,
-      ),
+      style: style ??
+          GoogleFonts.montserrat(
+            fontSize: size ?? 16,
+            fontWeight: weight ?? FontWeight.w400,
+            color: color ?? textBlackColor,
+          ),
     );
   }
 }

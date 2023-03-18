@@ -7,3 +7,5 @@ const textBlackColor = Color(0xFF333333);
 const darkGreenColor = Color(0xFF3CA1A3);
 const strokeBrownColor = Color(0xFFF0AF88);
 const lightGreenColor = Color(0xFF89EDF0);
+const backgroundWhiteColor = Color(0xFFFDFDFD);
+const textGreyColor = Color(0xFF929292);
