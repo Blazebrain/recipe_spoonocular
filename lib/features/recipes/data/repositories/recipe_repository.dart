@@ -19,7 +19,7 @@ class RecipeRepository {
 
   Future<List<Recipe>> getRandomRecipes(int page) async {
     final connectivityResult = await connectivity.checkConnectivity();
-    
+
     if (connectivityResult == ConnectivityResult.none) {
       final recipes = await getLocalRecipes();
       return recipes;
@@ -34,7 +34,6 @@ class RecipeRepository {
         await dbHelper.insertRecipes(recipes);
         return recipes;
       } else {
-        print(response);
         throw Exception(data['message']);
       }
     }

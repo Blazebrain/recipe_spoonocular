@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_spoonacular_app/features/recipes/presentation/ui/recipe_details_page.dart';
@@ -36,6 +38,17 @@ class _RecipePageState extends State<RecipePage> {
     super.dispose();
   }
 
+  Timer? _searchTimer;
+
+  void _onSearchChanged(String query) {
+    if (_searchTimer != null) {
+      _searchTimer!.cancel();
+    }
+    _searchTimer = Timer(const Duration(milliseconds: 300), () {
+      context.read<RecipeBloc>().add(SearchRecipes(query: query));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +61,7 @@ class _RecipePageState extends State<RecipePage> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: TextField(
-              onChanged: (query) {
-                context.read<RecipeBloc>().add(SearchRecipes(query: query));
-              },
+              onChanged: _onSearchChanged,
               decoration: const InputDecoration(
                 labelText: "Search Recipes",
                 border: OutlineInputBorder(),

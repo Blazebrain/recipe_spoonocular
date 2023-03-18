@@ -17,7 +17,15 @@ class RecipeDetailsPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(recipe.imageUrl),
+            if (recipe.imageUrl != null) ...[
+              Image.network(recipe.imageUrl!),
+            ],
+            if (recipe.imageUrl == null) ...[
+              const Text(
+                'No image available for this recipe',
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
             const SizedBox(height: 16),
             Text(
               recipe.title,

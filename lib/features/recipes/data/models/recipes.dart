@@ -1,9 +1,9 @@
 class Recipe {
   final int id;
   final String title;
-  final String imageUrl;
+  final String? imageUrl;
 
-  Recipe({required this.id, required this.title, required this.imageUrl});
+  Recipe({required this.id, required this.title, this.imageUrl});
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(

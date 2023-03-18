@@ -45,7 +45,7 @@ class DatabaseHelper {
       CREATE TABLE $table (
         $columnId INTEGER PRIMARY KEY,
         $columnTitle TEXT NOT NULL,
-        $columnImageUrl TEXT NOT NULL
+        $columnImageUrl TEXT
       )
       ''');
   }

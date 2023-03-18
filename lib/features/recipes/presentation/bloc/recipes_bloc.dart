@@ -18,13 +18,16 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
     required this.connectivity,
     required this.recipeRepository,
   }) : super(RecipeInitial()) {
+    //* Listen for connectivity changes
     _connectivitySubscription =
         connectivity.onConnectivityChanged.listen((result) {
-      if (result != ConnectivityResult.none) {
+      if (result != ConnectivityResult.none &&
+          (state is RecipeLoaded || state is RecipeInitial)) {
         add(LoadRandomRecipes(page: 1));
       }
     });
 
+    //* Handle Incoming events
     on<LoadRandomRecipes>(_loadRandomRecipes);
     on<SearchRecipes>(_searchRecipes);
   }
@@ -37,12 +40,14 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
       recipes = await recipeRepository.getRandomRecipes(event.page);
       emit(RecipeLoaded(recipes: recipes));
     } catch (e) {
-      emit(RecipeError(
-        message: e.toString(),
-        onRetry: () {
-          add(event);
-        },
-      ));
+      emit(
+        RecipeError(
+          message: e.toString(),
+          onRetry: () {
+            add(event);
+          },
+        ),
+      );
     }
   }
 
