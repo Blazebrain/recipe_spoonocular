@@ -1,10 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_spoonacular_app/features/recipes/presentation/ui/recipe_details_page.dart';
 
 import '../bloc/recipes_bloc.dart';
 
-class RecipePage extends StatelessWidget {
+class RecipePage extends StatefulWidget {
   const RecipePage({super.key});
+
+  @override
+  State<RecipePage> createState() => _RecipePageState();
+}
+
+class _RecipePageState extends State<RecipePage> {
+  final ScrollController _scrollController = ScrollController();
+  int _currentPage = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<RecipeBloc>().add(LoadRandomRecipes(page: _currentPage));
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      _currentPage++;
+      context.read<RecipeBloc>().add(LoadRandomRecipes(page: _currentPage));
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +69,16 @@ class RecipePage extends StatelessWidget {
                       final recipe = state.recipes[index];
                       return ListTile(
                         title: Text(recipe.title),
-                        onTap: () {},
+                        // ui/home_page.dart
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  RecipeDetailsPage(recipe: recipe),
+                            ),
+                          );
+                        },
                       );
                     },
                   );

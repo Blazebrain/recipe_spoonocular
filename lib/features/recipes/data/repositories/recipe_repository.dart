@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:recipe_spoonacular_app/core/constants/api_constants.dart';
+
 import '../../../../core/services/database_helper.dart';
 import '../models/recipes.dart';
-import 'package:http/http.dart' as http;
 
 class RecipeRepository {
   final http.Client httpClient;
@@ -8,16 +12,38 @@ class RecipeRepository {
 
   RecipeRepository({required this.httpClient, required this.dbHelper});
 
-  // Future<List<Recipe>> getRandomRecipes(int page) async {
-  //   // Fetch random recipes from spoonacular API and store them in the local database
+  Future<List<Recipe>> getRandomRecipes(int page) async {
+    final response = await httpClient.get(ApiConstants.getRandomRecipe());
+    
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final recipes = (data['recipes'] as List)
+          .map((recipeJson) => Recipe.fromJson(recipeJson))
+          .toList();
 
-  // }
+      await dbHelper.insertRecipes(recipes);
+      return recipes;
+    } else {
+      throw Exception('Failed to load random recipes');
+    }
+  }
 
-  // Future<List<Recipe>> searchRecipes(String query) async {
-  //   // Search recipes from spoonacular API and store them in the local database
-  // }
+  Future<List<Recipe>> searchRecipes(String query) async {
+    final response = await httpClient.get(ApiConstants.searchRecipes(query));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final recipes = (data['results'] as List)
+          .map((recipeJson) => Recipe.fromJson(recipeJson))
+          .toList();
 
-  // Future<List<Recipe>> getLocalRecipes() async {
-  //   // Load recipes from the local database
-  // }
+      await dbHelper.insertRecipes(recipes);
+      return recipes;
+    } else {
+      throw Exception('Failed to search recipes');
+    }
+  }
+
+  Future<List<Recipe>> getLocalRecipes() async {
+    return await dbHelper.getRecipes();
+  }
 }

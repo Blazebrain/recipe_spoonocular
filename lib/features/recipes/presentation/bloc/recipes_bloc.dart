@@ -16,10 +16,22 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
 
   void _loadRandomRecipes(
       LoadRandomRecipes event, Emitter<RecipeState> emit) async {
-    // Handle loading random recipes
+    try {
+      List<Recipe> recipes;
+      recipes = await recipeRepository.getRandomRecipes(event.page);
+      emit(RecipeLoaded(recipes: recipes));
+    } catch (e) {
+      emit(RecipeError(message: e.toString()));
+    }
   }
 
   void _searchRecipes(SearchRecipes event, Emitter<RecipeState> emit) async {
-    // Handle searching recipes
+    try {
+      List<Recipe> recipes;
+      recipes = await recipeRepository.searchRecipes(event.query);
+      emit(RecipeLoaded(recipes: recipes));
+    } catch (e) {
+      emit(RecipeError(message: e.toString()));
+    }
   }
 }
