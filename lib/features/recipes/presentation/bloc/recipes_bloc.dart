@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/recipes.dart';
@@ -8,10 +11,20 @@ part 'recipes_state.dart';
 
 class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
   final RecipeRepository recipeRepository;
+  final Connectivity connectivity;
+  StreamSubscription<ConnectivityResult>? _connectivitySubscription;
 
   RecipeBloc({
+    required this.connectivity,
     required this.recipeRepository,
   }) : super(RecipeInitial()) {
+    _connectivitySubscription =
+        connectivity.onConnectivityChanged.listen((result) {
+      if (result != ConnectivityResult.none) {
+        add(LoadRandomRecipes(page: 1));
+      }
+    });
+
     on<LoadRandomRecipes>(_loadRandomRecipes);
     on<SearchRecipes>(_searchRecipes);
   }
@@ -49,5 +62,11 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
         ),
       );
     }
+  }
+
+  @override
+  Future<void> close() {
+    _connectivitySubscription?.cancel();
+    return super.close();
   }
 }

@@ -25,6 +25,7 @@ class RecipeApp extends StatelessWidget {
     return MaterialApp(
       home: BlocProvider(
         create: (context) => RecipeBloc(
+          connectivity: connectivity,
           recipeRepository: RecipeRepository(
             httpClient: httpClient,
             dbHelper: dbHelper,
