@@ -63,27 +63,44 @@ class _RecipePageState extends State<RecipePage> {
                 if (state is RecipeLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is RecipeLoaded) {
-                  return ListView.builder(
-                    itemCount: state.recipes.length,
-                    itemBuilder: (context, index) {
-                      final recipe = state.recipes[index];
-                      return ListTile(
-                        title: Text(recipe.title),
-                        // ui/home_page.dart
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  RecipeDetailsPage(recipe: recipe),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  );
+                  if (state.recipes.isEmpty) {
+                    return const Center(
+                      child: Text("No recipes found"),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: state.recipes.length,
+                      itemBuilder: (context, index) {
+                        final recipe = state.recipes[index];
+                        return ListTile(
+                          title: Text(recipe.title),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    RecipeDetailsPage(recipe: recipe),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }
                 } else if (state is RecipeError) {
-                  return Center(child: Text(state.message));
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(state.message),
+                        const SizedBox(height: 8),
+                        ElevatedButton(
+                          onPressed: state.onRetry,
+                          child: const Text("Retry"),
+                        ),
+                      ],
+                    ),
+                  );
                 }
                 return Container();
               },

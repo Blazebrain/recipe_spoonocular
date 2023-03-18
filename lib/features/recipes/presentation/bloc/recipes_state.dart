@@ -13,5 +13,6 @@ class RecipeLoaded extends RecipeState {
 
 class RecipeError extends RecipeState {
   final String message;
-  RecipeError({required this.message});
+  final VoidCallback onRetry;
+  RecipeError({required this.message, required this.onRetry});
 }
