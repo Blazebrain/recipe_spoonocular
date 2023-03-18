@@ -24,7 +24,7 @@ class RecipeRepository {
       final recipes = await getLocalRecipes();
       return recipes;
     } else {
-      final response = await httpClient.get(ApiConstants.getRandomRecipe());
+      final response = await httpClient.get(ApiConstants.getRandomRecipe(page));
       final data = json.decode(response.body);
       if (response.statusCode == 200) {
         final recipes = (data['recipes'] as List)

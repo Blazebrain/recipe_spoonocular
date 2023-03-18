@@ -1,38 +1,39 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_spoonacular_app/core/app_routing/app_navigator.dart';
+import 'package:recipe_spoonacular_app/core/app_routing/app_router.dart';
 
 import 'core/services/database_helper.dart';
 import 'features/recipes/data/repositories/recipe_repository.dart';
 import 'features/recipes/presentation/bloc/recipes_bloc.dart';
 import 'package:http/http.dart' as http;
 
-import 'features/recipes/presentation/ui/recipe_page.dart';
-
 class RecipeApp extends StatelessWidget {
-  final DatabaseHelper dbHelper;
-  final Connectivity connectivity;
-  final http.Client httpClient;
-  const RecipeApp({
-    super.key,
-    required this.dbHelper,
-    required this.connectivity,
-    required this.httpClient,
-  });
+  RecipeApp({super.key});
+
+  final dbHelper = DatabaseHelper();
+  final httpClient = http.Client();
+  final connectivity = Connectivity();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BlocProvider(
+    return RepositoryProvider(
+      create: (context) => RecipeRepository(
+        httpClient: httpClient,
+        dbHelper: dbHelper,
+        connectivity: connectivity,
+      ),
+      child: BlocProvider(
         create: (context) => RecipeBloc(
           connectivity: connectivity,
-          recipeRepository: RecipeRepository(
-            httpClient: httpClient,
-            dbHelper: dbHelper,
-            connectivity: connectivity,
-          ),
+          recipeRepository: context.read(),
         ),
-        child: const RecipePage(),
+        child: MaterialApp(
+          title: 'Recipes App',
+          navigatorKey: AppNavigator.key,
+          onGenerateRoute: AppRouter.generateRoute,
+        ),
       ),
     );
   }
