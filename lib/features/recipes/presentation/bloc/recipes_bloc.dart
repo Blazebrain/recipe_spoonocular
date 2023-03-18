@@ -23,7 +23,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
         connectivity.onConnectivityChanged.listen((result) {
       if (result != ConnectivityResult.none &&
           (state is RecipeLoaded || state is RecipeInitial)) {
-        add(LoadRandomRecipes(page: 1));
+        add(LoadRandomRecipes());
       }
     });
 
@@ -37,7 +37,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
     emit(RecipeLoading());
     try {
       List<Recipe> recipes;
-      recipes = await recipeRepository.getRandomRecipes(event.page);
+      recipes = await recipeRepository.getRandomRecipes();
       emit(RecipeLoaded(recipes: recipes));
     } catch (e) {
       emit(

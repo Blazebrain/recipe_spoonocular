@@ -3,8 +3,7 @@ part of 'recipes_bloc.dart';
 abstract class RecipeEvent {}
 
 class LoadRandomRecipes extends RecipeEvent {
-  final int page;
-  LoadRandomRecipes({required this.page});
+  LoadRandomRecipes();
 }
 
 class SearchRecipes extends RecipeEvent {

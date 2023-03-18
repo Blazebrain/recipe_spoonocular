@@ -17,14 +17,14 @@ class RecipeRepository {
       required this.dbHelper,
       required this.connectivity});
 
-  Future<List<Recipe>> getRandomRecipes(int page) async {
+  Future<List<Recipe>> getRandomRecipes() async {
     final connectivityResult = await connectivity.checkConnectivity();
 
     if (connectivityResult == ConnectivityResult.none) {
       final recipes = await getLocalRecipes();
       return recipes;
     } else {
-      final response = await httpClient.get(ApiConstants.getRandomRecipe(page));
+      final response = await httpClient.get(ApiConstants.getRandomRecipe());
       final data = json.decode(response.body);
       if (response.statusCode == 200) {
         final recipes = (data['recipes'] as List)

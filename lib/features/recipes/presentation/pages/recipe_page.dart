@@ -19,20 +19,18 @@ class RecipePage extends StatefulWidget {
 
 class _RecipePageState extends State<RecipePage> {
   final ScrollController _scrollController = ScrollController();
-  int _currentPage = 1;
 
   @override
   void initState() {
     super.initState();
-    context.read<RecipeBloc>().add(LoadRandomRecipes(page: _currentPage));
+    context.read<RecipeBloc>().add(LoadRandomRecipes());
     _scrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      _currentPage++;
-      context.read<RecipeBloc>().add(LoadRandomRecipes(page: _currentPage));
+      context.read<RecipeBloc>().add(LoadRandomRecipes());
     }
   }
 
