@@ -1,12 +1,13 @@
 class ApiConstants {
+  static const apiKey = 'aa4899614e974597a63d7434aa2365e9';
   static Uri getRandomRecipe() {
     return Uri.parse(
-      'https://api.spoonacular.com/recipes/random?apiKey=YOUR_API_KEY&number=10',
+      'https://api.spoonacular.com/recipes/random?apiKey=$apiKey&number=10',
     );
   }
 
   static Uri searchRecipes(String query) {
     return Uri.parse(
-        'https://api.spoonacular.com/recipes/complexSearch?apiKey=YOUR_API_KEY&query=$query');
+        'https://api.spoonacular.com/recipes/complexSearch?apiKey=$apiKey&query=$query');
   }
 }

@@ -1,4 +1,5 @@
 // bloc/recipe_bloc.dart
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/recipes.dart';
 
@@ -9,13 +10,16 @@ part 'recipes_state.dart';
 class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
   final RecipeRepository recipeRepository;
 
-  RecipeBloc({required this.recipeRepository}) : super(RecipeInitial()) {
+  RecipeBloc({
+    required this.recipeRepository,
+  }) : super(RecipeInitial()) {
     on<LoadRandomRecipes>(_loadRandomRecipes);
     on<SearchRecipes>(_searchRecipes);
   }
 
   void _loadRandomRecipes(
       LoadRandomRecipes event, Emitter<RecipeState> emit) async {
+    emit(RecipeLoading());
     try {
       List<Recipe> recipes;
       recipes = await recipeRepository.getRandomRecipes(event.page);
@@ -26,6 +30,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
   }
 
   void _searchRecipes(SearchRecipes event, Emitter<RecipeState> emit) async {
+    emit(RecipeLoading());
     try {
       List<Recipe> recipes;
       recipes = await recipeRepository.searchRecipes(event.query);
